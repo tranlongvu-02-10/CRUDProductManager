@@ -44,4 +44,45 @@ public class ProductController : Controller
         var filteredProducts = _collection.Find(filter).ToList();
         return View("Index", filteredProducts);
     }
+    public IActionResult SortByDonGiaAsc()
+    {
+        var products = _collection.Find(FilterDefinition<Product>.Empty)
+                                .SortBy(p => p.DonGia)
+                                .ToList();
+        return View("Index", products);
+    }
+    public IActionResult SortByDonGiaDesc()
+    {
+        var products = _collection.Find(FilterDefinition<Product>.Empty)
+                                .SortByDescending(p => p.DonGia)
+                                .ToList();
+        return View("Index", products);
+    }
+    public IActionResult FilterByDonGia(double min, double max)
+    {
+        var builder = Builders<Product>.Filter;
+        var filter = builder.Gte(p => p.DonGia, min) & builder.Lte(p => p.DonGia, max);
+        var products = _collection.Find(filter).ToList();
+        return View("Index", products);
+    }
+    public IActionResult FilterAndSort(double min, double max)
+    {
+        var builder = Builders<Product>.Filter;
+        var filter = builder.Gte(p => p.DonGia, min) & builder.Lte(p => p.DonGia, max);
+        var products = _collection.Find(filter)
+                                .SortBy(p => p.DonGia)
+                                .ToList();
+        return View("Index", products);
+    }
+    public IActionResult SortDonGiaAscThenMaDesc()
+    {
+        var sort = Builders<Product>.Sort.Ascending(p => p.DonGia)
+                                        .Descending(p => p.Ma);
+        var products = _collection.Find(FilterDefinition<Product>.Empty)
+                                .Sort(sort)
+                                .ToList();
+        return View("Index", products);
+    }
+
+
 }

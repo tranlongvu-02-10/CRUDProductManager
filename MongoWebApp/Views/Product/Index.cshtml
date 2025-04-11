@@ -19,6 +19,13 @@
             <button type="submit" class="btn btn-primary w-100">Lọc</button>
         </div>
     </form>
+        <!-- Các nút sắp xếp và lọc -->
+    <div class="mb-3 d-flex flex-wrap gap-2">
+        <a asp-action="Index" class="btn btn-outline-secondary">Tải tất cả</a>
+        <a asp-action="SortByDonGiaAsc" class="btn btn-outline-primary">Sắp xếp đơn giá ↑</a>
+        <a asp-action="SortByDonGiaDesc" class="btn btn-outline-primary">Sắp xếp đơn giá ↓</a>
+        <a asp-action="SortDonGiaAscThenMaDesc" class="btn btn-outline-info">Sắp xếp đơn giá ↑, mã ↓</a>
+    </div>
 
     <!-- Bảng danh sách sản phẩm -->
     <table class="table table-bordered table-striped table-hover">
