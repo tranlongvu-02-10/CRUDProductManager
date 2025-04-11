@@ -1,0 +1,19 @@
+@model List<Product>
+
+<h2>Danh sách sản phẩm</h2>
+
+<table border="1">
+    <tr>
+        <th>Mã</th>
+        <th>Tên</th>
+        <th>Đơn giá</th>
+    </tr>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Ma</td>
+        <td>@item.Ten</td>
+        <td>@item.DonGia</td>
+    </tr>
+}
+</table>
