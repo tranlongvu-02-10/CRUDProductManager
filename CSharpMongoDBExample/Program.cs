@@ -17,19 +17,21 @@ class Program
         // Kết nối tới collection "Product"
         IMongoCollection<BsonDocument> collection = database.GetCollection<BsonDocument>("Product");
 
-        // Truy vấn toàn bộ dữ liệu
-        List<BsonDocument> documents = await collection.Find(new BsonDocument()).ToListAsync();
+        // Tạo điều kiện truy vấn: DonGia = 20
+        var builder = Builders<BsonDocument>.Filter;
+        var query = builder.Eq("DonGia", 20);
 
+        // Truy vấn dữ liệu với điều kiện
+        List<BsonDocument> documents = await collection.Find(query).ToListAsync();
 
+        // Duyệt và hiển thị kết quả
         foreach (BsonDocument document in documents)
         {
-        //Cột Ma (là thuộc tính Ma của đối tượng Product đang duyệt) có kiểu chuỗi
-        string ma = document["Ma"].AsString;
-        //Cột Ten (là thuộc tính Ten của đối tượng Product đang duyệt) có kiểu chuỗi
-        string ten = document["Ten"].AsString;
-        //Cột DonGia (là thuộc tính DonGia của đối tượng Product đang duyệt) có kiểu Double
-        double gia = document["DonGia"].AsDouble;
-        Console.WriteLine($"Mã: {ma}, Tên: {ten}, Đơn giá: {gia}");
+            string ma = document["Ma"].AsString;
+            string ten = document["Ten"].AsString;
+            double gia = document["DonGia"].AsDouble;
+
+            Console.WriteLine($"Mã: {ma}, Tên: {ten}, Đơn giá: {gia}");
         }
     }
 }
