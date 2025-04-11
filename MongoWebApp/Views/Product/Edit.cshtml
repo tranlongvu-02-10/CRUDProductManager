@@ -1,0 +1,20 @@
+@model Product
+
+<h2>Cập nhật sản phẩm</h2>
+<form asp-action="Edit" method="post" class="w-50 mx-auto">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group mb-3">
+        <label for="Ma">Mã</label>
+        <input asp-for="Ma" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+        <label for="Ten">Tên</label>
+        <input asp-for="Ten" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+        <label for="DonGia">Đơn giá</label>
+        <input asp-for="DonGia" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-warning">Cập nhật</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

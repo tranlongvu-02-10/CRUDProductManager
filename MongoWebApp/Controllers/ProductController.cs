@@ -83,6 +83,49 @@ public class ProductController : Controller
                                 .ToList();
         return View("Index", products);
     }
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Product product)
+    {
+        _collection.InsertOne(product);
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Edit(string id)
+    {
+        var product = _collection.Find(p => p.Id == id).FirstOrDefault();
+        return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(string id, Product updated)
+    {
+        _collection.ReplaceOne(p => p.Id == id, updated);
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Delete(string id)
+    {
+        var product = _collection.Find(p => p.Id == id).FirstOrDefault();
+        return View(product);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteConfirmed(string id)
+    {
+        _collection.DeleteOne(p => p.Id == id);
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Details(string id)
+    {
+        var product = _collection.Find(p => p.Id == id).FirstOrDefault();
+        return View(product);
+    }
 
 
 }

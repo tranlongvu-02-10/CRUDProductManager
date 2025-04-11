@@ -1,0 +1,15 @@
+@model Product
+
+<h2>Bạn có chắc muốn xóa sản phẩm này?</h2>
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Ten</h5>
+        <p class="card-text">Mã: @Model.Ma</p>
+        <p class="card-text">Đơn giá: @Model.DonGia.ToString("N0") ₫</p>
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Xóa</button>
+            <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+@model Product
+
+<h2>Chi tiết sản phẩm</h2>
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Ten</h5>
+        <p class="card-text">Mã sản phẩm: <strong>@Model.Ma</strong></p>
+        <p class="card-text">Đơn giá: <strong>@Model.DonGia.ToString("N0") ₫</strong></p>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</div>
