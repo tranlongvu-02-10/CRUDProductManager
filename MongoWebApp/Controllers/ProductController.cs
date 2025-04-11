@@ -1,26 +1,25 @@
-using MongoDB.Driver;
-using MongoWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using MongoWebApp.Models;
 
 public class ProductController : Controller
 {
-    private readonly IMongoCollection<Product> _productCollection;
+    private readonly IMongoCollection<Product> _collection;
 
     public ProductController()
     {
         var client = new MongoClient("mongodb://localhost:27017");
-        var database = client.GetDatabase("Product");
-        _productCollection = database.GetCollection<Product>("Products");
+        var database = client.GetDatabase("QuanLySanPham");
+        _collection = database.GetCollection<Product>("Product");
     }
 
     public IActionResult Index()
     {
-        var products = _productCollection.Find(_ => true).ToList();
+        var products = _collection.Find(Builders<Product>.Filter.Empty).ToList();
         return View(products);
     }
 
-    // 👉 Thêm chức năng lọc
     [HttpPost]
     public IActionResult Filter(string ten, double? minPrice, double? maxPrice)
     {
@@ -29,18 +28,20 @@ public class ProductController : Controller
 
         if (!string.IsNullOrEmpty(ten))
         {
-            filter &= builder.Regex(p => p.Ten, new BsonRegularExpression(ten, "i"));
-        }
-        if (minPrice.HasValue)
-        {
-            filter &= builder.Gte(p => p.DonGia, minPrice.Value);
-        }
-        if (maxPrice.HasValue)
-        {
-            filter &= builder.Lte(p => p.DonGia, maxPrice.Value);
+            filter &= builder.Regex("Ten", new BsonRegularExpression(ten, "i")); // tìm kiếm không phân biệt hoa thường
         }
 
-        var result = _collection.Find(filter).ToList();
-        return View("Index", result);
+        if (minPrice.HasValue)
+        {
+            filter &= builder.Gte("DonGia", minPrice.Value);
+        }
+
+        if (maxPrice.HasValue)
+        {
+            filter &= builder.Lte("DonGia", maxPrice.Value);
+        }
+
+        var filteredProducts = _collection.Find(filter).ToList();
+        return View("Index", filteredProducts);
     }
 }
